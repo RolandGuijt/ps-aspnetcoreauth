@@ -1,0 +1,32 @@
+﻿@model Globomantics.Models.ConferenceModel
+<form asp-action="Add">
+    <div class="row form-group">
+        <div class="col-md-2 col-md-offset-2">
+            <label asp-for="Name"></label>
+        </div>
+        <div class="col-md-2">
+            <input class="form-control" asp-for="Name" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-2 col-md-offset-2">
+            <label asp-for="Location"></label>
+        </div>
+        <div class="col-md-2">
+            <input class="form-control" asp-for="Location" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-2 col-md-offset-2">
+            <label asp-for="Start"></label>
+        </div>
+        <div class="col-md-2">
+            <input class="form-control" type="date" asp-for="Start" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-4">
+            <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+    </div>
+</form>
