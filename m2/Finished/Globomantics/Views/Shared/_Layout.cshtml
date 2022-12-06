@@ -10,15 +10,15 @@
     <div class="container">
         <div class="row">
             <div class="col-12 mt-2 ml-n2">
-                <img width="600px" src="~/img/globomantics-logo-darkblue.png" style="max-width:100%" />
+                <img width="500px" src="~/img/globomantics-logo-darkblue.png" style="max-width:100%" />
             </div>
             </div>
             <div class="row">
-            <div class="col-6 mt-2">
+            <div class="col-7 mt-2 mb-2">
                 <span class="text-primary">@ViewBag.Title</span>
             </div>
-            <div class="col-6">
-                @if (User.Identity.IsAuthenticated)
+            <div class="col-5">
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
                 {
                     <div class="float-end">
                         <span>Hi @User.Identity.Name!</span>
