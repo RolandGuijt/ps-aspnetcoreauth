@@ -20,7 +20,8 @@ builder.Services.AddAuthentication(o =>
     //.AddTwitter( ..)
     .AddGoogle(o =>
     {
-        o.SignInScheme = ExternalAuthenticationDefaults.AuthenticationScheme;
+        o.SignInScheme = 
+            ExternalAuthenticationDefaults.AuthenticationScheme;
         o.ClientId = "686977813024-d9i87jqqovj5tu5luks9rk8gl33ck3rb.apps.googleusercontent.com";
         o.ClientSecret = "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";
     });

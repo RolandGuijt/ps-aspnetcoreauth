@@ -62,13 +62,15 @@ public class AccountController : Controller
     public async Task<IActionResult> GoogleLoginCallback()
     {
         // read google identity from google's cookie
-        var result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
+        var result = await HttpContext.AuthenticateAsync(
+            GoogleDefaults.AuthenticationScheme);
         
         if (result.Principal == null)
             throw new Exception("Could not create a principal");
         var externalClaims = result.Principal.Claims.ToList();
 
-        var subjectIdClaim = externalClaims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+        var subjectIdClaim = externalClaims.FirstOrDefault(
+            x => x.Type == ClaimTypes.NameIdentifier);
 
         if (subjectIdClaim == null)
             throw new Exception("Could not extract a subject id claim");
@@ -88,17 +90,22 @@ public class AccountController : Controller
             new Claim("FavoriteColor", user.FavoriteColor)
         };
 
-        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        var identity = new ClaimsIdentity(claims, 
+            CookieAuthenticationDefaults.AuthenticationScheme);
         var principal = new ClaimsPrincipal(identity);
 
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+        await HttpContext.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme, 
+            principal);
 
-        return LocalRedirect(result.Properties?.Items["returnUrl"] ?? "/");
+        return LocalRedirect(result.Properties?.Items["returnUrl"] 
+            ?? "/");
     }
 
     public async Task<IActionResult> Logout()
     {
-        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        await HttpContext.SignOutAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme);
         return Redirect("/");
     }
 }

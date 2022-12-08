@@ -63,7 +63,8 @@ public class AccountController : Controller
     public async Task<IActionResult> ExternalLoginCallback()
     {
         // read google identity from temporary cookie
-        var result = await HttpContext.AuthenticateAsync(ExternalAuthenticationDefaults.AuthenticationScheme);
+        var result = await HttpContext.AuthenticateAsync(
+            ExternalAuthenticationDefaults.AuthenticationScheme);
         
         if (result.Principal == null)
             throw new Exception("Could not create a principal");
@@ -99,8 +100,10 @@ public class AccountController : Controller
         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         var principal = new ClaimsPrincipal(identity);
 
-        await HttpContext.SignOutAsync(ExternalAuthenticationDefaults.AuthenticationScheme);
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+        await HttpContext.SignOutAsync(
+            ExternalAuthenticationDefaults.AuthenticationScheme);
+        await HttpContext.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
         return LocalRedirect(result.Properties?.Items["returnUrl"] ?? "/");
     }
