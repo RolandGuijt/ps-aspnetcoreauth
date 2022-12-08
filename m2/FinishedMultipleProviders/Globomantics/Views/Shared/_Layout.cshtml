@@ -24,13 +24,14 @@
                         <span>Hi @User.Identity.Name!</span>
                         <a asp-controller="Account" asp-action="Logout" class="btn btn-primary">Logout</a>
                     </div>
+
                 }
                 else
                 {
                     <div class="float-end">
                         <span>Login here:</span>
                         <a asp-controller="Account" asp-action="Login" class="btn btn-primary">Login</a>
-                    </div>
+                    </div>                
                 }
             </div>
         </div>

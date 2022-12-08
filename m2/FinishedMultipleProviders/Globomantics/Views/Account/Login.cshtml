@@ -1,4 +1,5 @@
-﻿@model Globomantics.Models.LoginModel
+﻿@using Microsoft.AspNetCore.Authentication.Google
+@model Globomantics.Models.LoginModel
 
 <div class="login-page">
     <div class="page-header">
@@ -41,8 +42,12 @@
         </div>
         <div class="col-sm-4">
             <p>Or login with an account you already have:</p>
-            <a class="btn btn-primary" asp-action="LoginWithGoogle" 
+            <a class="btn btn-primary" asp-action="LoginWithExternal" 
+                asp-route-scheme="@GoogleDefaults.AuthenticationScheme" 
                 asp-route-returnUrl="@Model.ReturnUrl">Login with Google</a>
+            <a class="btn btn-primary" asp-action="LoginWithExternal"
+                asp-route-scheme="Twitter"
+                asp-route-returnUrl="@Model.ReturnUrl">Login with Twitter</a>
         </div>
     </div>
 </div>

@@ -26,7 +26,7 @@
     </div>
 </div>
 
-@if (User.Identity.IsAuthenticated)
+@if (User.Identity != null && User.Identity.IsAuthenticated)
 {
     <table class="table table-sm">
         @foreach (var claim in User.Claims)
