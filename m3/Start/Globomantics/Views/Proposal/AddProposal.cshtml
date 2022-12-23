@@ -1,0 +1,26 @@
+﻿@model Globomantics.Models.ProposalModel
+<form asp-action="AddProposal">
+    <input type="hidden" asp-for="ConferenceId"/>
+
+    <div class="row form-group">
+        <div class="col-md-2 col-md-offset-2">
+            <label asp-for="Title"></label>
+        </div>
+        <div class="col-md-2">
+            <input class="form-control" asp-for="Title"/>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-2 col-md-offset-2">
+            <label asp-for="Speaker"></label>
+        </div>
+        <div class="col-md-2">
+            <input class="form-control" asp-for="Speaker"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-4">
+            <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+    </div>
+</form>

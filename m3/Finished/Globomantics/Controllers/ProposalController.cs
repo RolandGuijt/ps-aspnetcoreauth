@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Globomantics.Controllers;
+
+[Authorize]
 public class ProposalController : Controller
 {
     private readonly IConferenceRepository conferenceRepo;
@@ -15,9 +17,9 @@ public class ProposalController : Controller
         this.proposalRepo = proposalRepo;
     }
 
-    public IActionResult Index(int conferenceId)
+    public async Task<IActionResult> Index(int conferenceId)
     {
-        var conference = conferenceRepo.GetById(conferenceId);
+        var conference = await conferenceRepo.GetById(conferenceId);
         ViewBag.Title = $"Speaker - Proposals For Conference {conference.Name} {conference.Location}";
         ViewBag.ConferenceId = conferenceId;
 
@@ -31,16 +33,16 @@ public class ProposalController : Controller
     }
 
     [HttpPost]
-    public IActionResult AddProposal(ProposalModel proposal)
+    public async Task<IActionResult> AddProposal(ProposalModel proposal)
     {
         if (ModelState.IsValid)
-            proposalRepo.Add(proposal);
+            await proposalRepo.Add(proposal);
         return RedirectToAction("Index", new { conferenceId = proposal.ConferenceId });
     }
 
-    public IActionResult Approve(int proposalId)
+    public async Task<IActionResult> Approve(int proposalId)
     {
-        var proposal = proposalRepo.Approve(proposalId);
+        var proposal = await proposalRepo.Approve(proposalId);
         return RedirectToAction("Index", new { conferenceId = proposal.ConferenceId });
     }
 }
