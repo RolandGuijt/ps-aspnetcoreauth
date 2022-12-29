@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Globomantics.Models.ProposalModel>
+<div class="row">
+    <div class="col-md-10 col-md-offset-2">
+        <table class="table">
+            <tr>
+                <th>Title</th>
+                <th>Speaker</th>
+                <th>Approved</th>
+                <th>Actions</th>
+            </tr>
+            @foreach (var proposal in Model)
+            {
+                <tr>
+                    <td>@proposal.Title</td>
+                    <td>@proposal.Speaker</td>
+                    <td>
+                        @if (proposal.Approved)
+                        {
+                            <div>Yes</div>
+                        }
+                    </td>
+                    <td>
+                        @if (!proposal.Approved)
+                        {
+                            <a asp-action="Approve" asp-route-proposalId="@proposal.Id">Approve</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+        <a asp-action="AddProposal" asp-route-conferenceId="@ViewBag.ConferenceId">Add</a>
+
+    </div>
+</div>
