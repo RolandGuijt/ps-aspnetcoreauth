@@ -1,8 +1,8 @@
 using Globomantics.Repositories;
 using IdentityModel;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,20 +22,31 @@ builder.Services.AddAuthentication(o =>
     {
         options.Authority = "https://localhost:5000";
 
-        options.ClientId = "interactive";
+        options.ClientId = "globomantics_web";
         //Store in application secrets
         options.ClientSecret = "49C1A7E1-0C79-4A89-A3D6-A37998FB86B0";
-
-        //options.SaveTokens = true;
-
-        options.GetClaimsFromUserInfoEndpoint = true;
-        //options.ClaimActions.MapUniqueJsonKey("CareerStarted",
-        //    "CareerStarted");
-        //options.ClaimActions.MapUniqueJsonKey("FullName", "FullName");
-        //options.ClaimActions.MapUniqueJsonKey("Role", "role");
-        //options.ClaimActions.MapUniqueJsonKey("Permission", "Permission");
-
+        options.Scope.Add(JwtClaimTypes.Email);
+        options.Scope.Add("globomantics");
+        options.SaveTokens = true;
         options.ResponseType = "code";
+        options.GetClaimsFromUserInfoEndpoint = false;
+
+        //options.ClaimActions.MapUniqueJsonKey("careerstarted",
+        //               "careerstarted");
+        //options.ClaimActions.MapUniqueJsonKey("birthdate",
+        //               "birthdate");
+        //options.ClaimActions.MapUniqueJsonKey("Role", "Role");
+        //options.ClaimActions.MapUniqueJsonKey("permission", "permission");
+
+
+        options.Events = new OpenIdConnectEvents
+        {
+            OnTokenResponseReceived = t =>
+            {
+                Console.WriteLine(t.TokenEndpointResponse.IdToken);
+                return Task.CompletedTask;
+            }
+        };
 
     });
 

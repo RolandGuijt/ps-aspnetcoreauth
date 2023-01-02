@@ -1,9 +1,11 @@
 ﻿using Globomantics.Models;
 using Globomantics.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Globomantics.Controllers;
 
+[Authorize]
 public class ConferenceController : Controller
 {
     private readonly IConferenceRepository repo;

@@ -1,4 +1,5 @@
-﻿using IdentityProvider.Models;
+﻿using IdentityModel;
+using IdentityProvider.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
@@ -24,7 +25,7 @@ namespace IdentityProvider.Areas.Identity
             if (existingClaim != null)
                 return clonedPrincipal;
 
-            var nameIdClaim = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            var nameIdClaim = identity.Claims.FirstOrDefault(c => c.Type == JwtClaimTypes.Subject);
             if (nameIdClaim == null)
                 return clonedPrincipal;
 
