@@ -3,6 +3,7 @@ using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddSingleton<IConferenceRepository, ConferenceRepository>();
 builder.Services.AddSingleton<IProposalRepository, ProposalRepository>();
+
+//JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
 builder.Services.AddAuthentication(o =>
 {
@@ -29,13 +32,13 @@ builder.Services.AddAuthentication(o =>
         options.Scope.Add("globomantics");
         options.SaveTokens = true;
         options.ResponseType = "code";
-        options.GetClaimsFromUserInfoEndpoint = false;
+        //options.GetClaimsFromUserInfoEndpoint = true;
 
         //options.ClaimActions.MapUniqueJsonKey("careerstarted",
         //               "careerstarted");
         //options.ClaimActions.MapUniqueJsonKey("birthdate",
         //               "birthdate");
-        //options.ClaimActions.MapUniqueJsonKey("Role", "Role");
+        //options.ClaimActions.MapUniqueJsonKey("role", "role");
         //options.ClaimActions.MapUniqueJsonKey("permission", "permission");
 
 
@@ -43,7 +46,7 @@ builder.Services.AddAuthentication(o =>
         {
             OnTokenResponseReceived = t =>
             {
-                Console.WriteLine(t.TokenEndpointResponse.IdToken);
+                var token = t.TokenEndpointResponse.IdToken;
                 return Task.CompletedTask;
             }
         };

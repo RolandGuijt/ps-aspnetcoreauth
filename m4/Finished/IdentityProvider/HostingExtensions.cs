@@ -1,4 +1,5 @@
 using Duende.IdentityServer;
+using Duende.IdentityServer.Configuration.DependencyInjection;
 using IdentityProvider.Areas.Identity;
 using IdentityProvider.Data;
 using IdentityProvider.Models;
@@ -35,8 +36,10 @@ internal static class HostingExtensions
             .AddInMemoryIdentityResources(Config.IdentityResources)
             .AddInMemoryApiScopes(Config.ApiScopes)
             .AddInMemoryClients(Config.Clients)
-            .AddAspNetIdentity<ApplicationUser>();
-        
+            
+            .AddAspNetIdentity<ApplicationUser>()
+            .AddProfileService<ProfileService>();
+
         builder.Services.AddAuthentication()
             .AddGoogle(options =>
             {
@@ -50,11 +53,10 @@ internal static class HostingExtensions
             });
 
         builder.Services.AddScoped<IEmailSender, EmailSender>();
-        builder.Services.AddScoped<IClaimsTransformation, ClaimsTransformer>();
 
         return builder.Build();
     }
-    
+
     public static WebApplication ConfigurePipeline(this WebApplication app)
     { 
         app.UseSerilogRequestLogging();
