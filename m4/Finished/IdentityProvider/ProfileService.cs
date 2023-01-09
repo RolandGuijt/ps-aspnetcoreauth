@@ -5,7 +5,9 @@ using System.Security.Claims;
 
 public class ProfileService: ProfileService<ApplicationUser>
 {
-	public ProfileService(UserManager<ApplicationUser> userManager, IUserClaimsPrincipalFactory<ApplicationUser> claimsFactory): base(userManager, claimsFactory)
+	public ProfileService(UserManager<ApplicationUser> userManager, 
+        IUserClaimsPrincipalFactory<ApplicationUser> claimsFactory)
+        : base(userManager, claimsFactory)
 	{
 	}
 

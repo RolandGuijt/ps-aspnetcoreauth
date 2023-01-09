@@ -13,7 +13,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddSingleton<IConferenceRepository, ConferenceRepository>();
 builder.Services.AddSingleton<IProposalRepository, ProposalRepository>();
 
-//JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
+JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
 builder.Services.AddAuthentication(o =>
 {
@@ -28,25 +28,26 @@ builder.Services.AddAuthentication(o =>
         options.ClientId = "globomantics_web";
         //Store in application secrets
         options.ClientSecret = "49C1A7E1-0C79-4A89-A3D6-A37998FB86B0";
-        options.Scope.Add(JwtClaimTypes.Email);
+        options.Scope.Clear();
+        options.Scope.Add("openid");
+        options.Scope.Add("profile");
+        options.Scope.Add("email");
         options.Scope.Add("globomantics");
+        options.Scope.Add("globomanticsapi");
         options.SaveTokens = true;
         options.ResponseType = "code";
-        //options.GetClaimsFromUserInfoEndpoint = true;
+        options.GetClaimsFromUserInfoEndpoint = true;
 
-        //options.ClaimActions.MapUniqueJsonKey("careerstarted",
-        //               "careerstarted");
-        //options.ClaimActions.MapUniqueJsonKey("birthdate",
-        //               "birthdate");
-        //options.ClaimActions.MapUniqueJsonKey("role", "role");
-        //options.ClaimActions.MapUniqueJsonKey("permission", "permission");
-
+        options.ClaimActions.MapUniqueJsonKey("careerstarted", "careerstarted");
+        options.ClaimActions.MapUniqueJsonKey("birthdate", "birthdate");
+        options.ClaimActions.MapUniqueJsonKey("role", "role");
+        options.ClaimActions.MapUniqueJsonKey("permission", "permission");
 
         options.Events = new OpenIdConnectEvents
         {
-            OnTokenResponseReceived = t =>
+            OnTokenResponseReceived = r =>
             {
-                var token = t.TokenEndpointResponse.IdToken;
+                var idToken = r.TokenEndpointResponse.IdToken;
                 return Task.CompletedTask;
             }
         };

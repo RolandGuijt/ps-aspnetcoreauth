@@ -14,12 +14,14 @@ namespace IdentityProvider;
 
 internal static class HostingExtensions
 {
-    public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
+    public static WebApplication ConfigureServices(
+        this WebApplicationBuilder builder)
     {
         builder.Services.AddRazorPages();
 
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlite(builder.Configuration
+                .GetConnectionString("DefaultConnection")));
 
         builder.Services.AddDefaultIdentity<ApplicationUser>()
             .AddRoles<IdentityRole>()
@@ -36,9 +38,10 @@ internal static class HostingExtensions
             .AddInMemoryIdentityResources(Config.IdentityResources)
             .AddInMemoryApiScopes(Config.ApiScopes)
             .AddInMemoryClients(Config.Clients)
-            
             .AddAspNetIdentity<ApplicationUser>()
             .AddProfileService<ProfileService>();
+
+        builder.Services.AddScoped<IEmailSender, EmailSender>();
 
         builder.Services.AddAuthentication()
             .AddGoogle(options =>
@@ -51,8 +54,6 @@ internal static class HostingExtensions
                 options.ClientId = "686977813024-d9i87jqqovj5tu5luks9rk8gl33ck3rb.apps.googleusercontent.com";
                 options.ClientSecret = "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";
             });
-
-        builder.Services.AddScoped<IEmailSender, EmailSender>();
 
         return builder.Build();
     }

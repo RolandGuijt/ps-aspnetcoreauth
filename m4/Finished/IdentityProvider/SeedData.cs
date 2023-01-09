@@ -23,7 +23,7 @@ public class SeedData
             {
                 alice = new ApplicationUser
                 {
-                    UserName = "alice",
+                    UserName = "alicesmith@email.com",
                     Email = "AliceSmith@email.com",
                     EmailConfirmed = true,
                 };
@@ -55,7 +55,7 @@ public class SeedData
             {
                 bob = new ApplicationUser
                 {
-                    UserName = "bob",
+                    UserName = "bobsmith@email.com",
                     Email = "BobSmith@email.com",
                     EmailConfirmed = true
                 };

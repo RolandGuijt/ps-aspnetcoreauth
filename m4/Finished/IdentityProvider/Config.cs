@@ -27,16 +27,20 @@ public static class Config
             new Client
             {
                 ClientId = "globomantics_web",
-                ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
+                ClientSecrets = { 
+                    new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
 
                 AllowedGrantTypes = GrantTypes.Code,
-                AlwaysIncludeUserClaimsInIdToken= true,
+                AlwaysIncludeUserClaimsInIdToken = false,
+                RequireConsent = true,
 
                 RedirectUris = { "https://localhost:5001/signin-oidc" },
                 FrontChannelLogoutUri = "https://localhost:5001/signout-oidc",
-                PostLogoutRedirectUris = { "https://localhost:5001/signout-callback-oidc" },
+                PostLogoutRedirectUris = { 
+                    "https://localhost:5001/signout-callback-oidc" },
                
-                AllowedScopes = { "openid", "email", "globomantics", "globomanticsapi", "profile" }
+                AllowedScopes = { "openid", "email", "globomantics", 
+                    "globomanticsapi", "profile" }
             },
         };
 }
