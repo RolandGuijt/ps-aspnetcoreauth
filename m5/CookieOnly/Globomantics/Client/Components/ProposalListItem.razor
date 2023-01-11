@@ -1,0 +1,32 @@
+@using Globomantics.Client.Models;
+@using Globomantics.Repositories;
+@inject IProposalRepository proposalRepository
+
+<tr>
+    <td>@Proposal.Title</td>
+    <td>@Proposal.Speaker</td>
+    <td>
+        @if (Proposal.Approved)
+        {
+            <div>Yes</div>
+        }
+    </td>
+    <td>
+        @if (!Proposal.Approved)
+        {
+            <a @onclick="@HandleApprove">Approve</a>
+        }
+    </td>
+</tr>
+
+
+@code {
+    [Parameter]
+    public ProposalModel Proposal { get; set; }
+
+    private void HandleApprove()
+    {
+        Proposal.Approved = true;
+        proposalRepository.Approve(Proposal.Id);
+    }
+}

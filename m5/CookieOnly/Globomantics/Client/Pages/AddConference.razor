@@ -1,0 +1,63 @@
+@page "/addconference"
+@using Globomantics.Client.Models;
+@using Globomantics.Repositories;
+@using Microsoft.AspNetCore.Components.Authorization
+@inject IConferenceRepository conferenceRepository
+@inject NavigationManager navigationManager
+
+<EditForm Model="@conference" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="row form-group">
+        <div class="col-md-2 col-md-offset-2">
+            <label for="name">Name</label>
+        </div>
+        <div class="col-md-2">
+            <InputText id="name" class="form-control" 
+                       @bind-Value="conference.Name" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-2 col-md-offset-2">
+            <label for="location">Location</label>
+        </div>
+        <div class="col-md-2">
+            <InputText id="location" class="form-control" 
+                       @bind-Value="conference.Location" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-2 col-md-offset-2">
+            <label for="start">Start</label>
+        </div>
+        <div class="col-md-2">
+            <InputDate id="start" class="form-control" 
+                       @bind-Value="conference.Start" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-2 col-md-offset-2">
+            <label for="attendeeCount">Attendee total</label>
+        </div>
+        <div class="col-md-2">
+            <InputNumber id="attendeeCount" class="form-control" 
+                         @bind-Value="conference.AttendeeCount" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-4">
+            <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    private ConferenceModel conference = new ConferenceModel {
+        Start = DateTime.Now };
+
+    private void HandleValidSubmit()
+    {
+        conferenceRepository.Add(conference);
+        navigationManager.NavigateTo("/");
+    }
+}

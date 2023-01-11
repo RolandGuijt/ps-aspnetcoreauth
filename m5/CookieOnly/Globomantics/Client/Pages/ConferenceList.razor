@@ -1,0 +1,67 @@
+﻿@page "/"
+@using Globomantics.Client.Components
+@using Globomantics.Client.Models;
+@using Globomantics.Repositories;
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.Components.Authorization;
+@inject IConferenceRepository conferenceRepository
+@inject AuthenticationStateProvider authProvider
+
+
+@if (conferences == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <AuthorizeView>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-2">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Location</th>
+                        <th>Start of event</th>
+                        <th>Attendees</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var conference in conferences)
+                    {
+                        <ConferenceListItem conference="@conference"></ConferenceListItem>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-2">
+            <a href="/addconference">Add</a>
+        </div>
+            <table class="table table-sm">
+                @foreach (var claim in claims)
+                {
+                    <tr>
+                        <td>@claim.Type</td>
+                        <td>@claim.Value</td>
+                    </tr>
+                }
+            </table>
+    </div>
+    </AuthorizeView>
+}
+
+@code {
+    IEnumerable<ConferenceModel> conferences;
+    IEnumerable<Claim> claims;
+
+    protected override async Task OnInitializedAsync()
+    {
+        conferences = conferenceRepository.GetAll();
+        var state = await authProvider.GetAuthenticationStateAsync();
+        claims = state.User.Claims;
+}
+}

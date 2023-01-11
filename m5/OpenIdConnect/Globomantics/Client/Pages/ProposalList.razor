@@ -1,0 +1,39 @@
+@page "/proposals/{ConferenceId}"
+@using Globomantics.Client.Components
+@using Microsoft.AspNetCore.Components.Authorization
+@inherits ProposalListModel
+
+@if (proposals == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <AuthorizeView>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-2">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Speaker</th>
+                        <th>Approved</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var proposal in proposals)
+                    {
+                        <ProposalListItem proposal="@proposal"></ProposalListItem>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-2">
+            <a href="/addproposal/@ConferenceId">Add</a>
+        </div>
+    </div>
+    </AuthorizeView>
+}

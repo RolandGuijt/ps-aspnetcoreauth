@@ -1,0 +1,23 @@
+@using Globomantics.Client.Models;
+<tr>
+    <td>@Conference.Name</td>
+    <td>@Conference.Location</td>
+    <td>@Conference.Start.ToString("ddd d MMM")</td>
+    @if (Conference.AttendeeCount > 5)
+    {
+
+        <td><strong>@Conference.AttendeeCount</strong></td>
+    }
+    else
+    {
+        <td>@Conference.AttendeeCount</td>
+    }
+    <td>
+        <a href="/proposals/@Conference.Id">Proposals</a>
+    </td>
+</tr>
+
+@code {
+    [Parameter]
+    public ConferenceModel Conference { get; set; }
+}

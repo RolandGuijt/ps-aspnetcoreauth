@@ -1,0 +1,20 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@inherits LayoutComponentBase
+
+<div class="container">
+     <div class="row">
+         <div class="col-12 mt-2 ml-n2">
+             <img width="500px" src="/img/globomantics-logo.png" style="max-width:100%" />
+         </div>
+     </div>
+    <div class="row" mb="2">
+        <div class="col-md-12">
+            <AuthorizeView>
+                <NotAuthorized>
+                    <a href="/Account/Login">Login</a>
+                </NotAuthorized>
+            </AuthorizeView>
+            @Body
+        </div>
+    </div>
+</div>
