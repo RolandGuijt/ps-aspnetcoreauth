@@ -1,21 +1,14 @@
 ﻿@page "/"
+@using Globomantics.Client.ApiServices;
 @using Globomantics.Client.Components
 @using Globomantics.Client.Models;
-@using Globomantics.Repositories;
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Authorization;
 @using Microsoft.AspNetCore.Components.Authorization;
-@inject IConferenceRepository conferenceRepository
+@inject IConferenceApiService apiService
 @inject AuthenticationStateProvider authProvider
 
-
-@if (conferences == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <AuthorizeView>
+<AuthorizeView>
     <div class="row">
         <div class="col-md-10 col-md-offset-2">
             <table class="table">
@@ -51,17 +44,20 @@ else
                 }
             </table>
     </div>
-    </AuthorizeView>
-}
+</AuthorizeView>
+
 
 @code {
-    IEnumerable<ConferenceModel> conferences;
+    IEnumerable<ConferenceModel> conferences = new List<ConferenceModel>();
     IEnumerable<Claim> claims;
 
     protected override async Task OnInitializedAsync()
-    {
-        conferences = conferenceRepository.GetAll();
+    {      
         var state = await authProvider.GetAuthenticationStateAsync();
-        claims = state.User.Claims;
-}
+        if (state.User.Identity.IsAuthenticated)
+        {
+            conferences = await apiService.GetAll();
+            claims = state.User.Claims;
+        }
+    }
 }

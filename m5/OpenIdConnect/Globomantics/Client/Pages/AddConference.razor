@@ -1,8 +1,8 @@
 @page "/addconference"
+@using Globomantics.Client.ApiServices;
 @using Globomantics.Client.Models;
-@using Globomantics.Repositories;
 @using Microsoft.AspNetCore.Components.Authorization
-@inject IConferenceRepository conferenceRepository
+@inject IConferenceApiService apiService
 @inject NavigationManager navigationManager
 
 <EditForm Model="@conference" OnValidSubmit="@HandleValidSubmit">
@@ -55,9 +55,9 @@
     private ConferenceModel conference = new ConferenceModel {
         Start = DateTime.Now };
 
-    private void HandleValidSubmit()
+    private async Task HandleValidSubmit()
     {
-        conferenceRepository.Add(conference);
+        await apiService.Add(conference);
         navigationManager.NavigateTo("/");
     }
 }

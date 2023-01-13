@@ -20,13 +20,15 @@ namespace Globomantics.Client
 
         private async ValueTask<ClaimsPrincipal> GetUser()
         {
-            var response = await _HttpClient.GetAsync("/Account/GetUser");
+            var response = await _HttpClient.GetAsync(
+                "/Account/GetUserClaims?slide=false");
             if (!response.IsSuccessStatusCode)
             {
                 return new ClaimsPrincipal(new ClaimsIdentity());
             }
 
-            var claims = await response.Content.ReadFromJsonAsync<IEnumerable<UserClaim>>();
+            var claims = await response.Content
+                .ReadFromJsonAsync<IEnumerable<UserClaim>>();
 
             var identity = new ClaimsIdentity(
                 nameof(ServerAuthenticationStateProvider), "name", "role");

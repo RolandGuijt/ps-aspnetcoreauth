@@ -1,8 +1,8 @@
 ﻿@page "/addproposal/{ConferenceId}"
+@using Globomantics.Client.ApiServices;
 @using Globomantics.Client.Models;
-@using Globomantics.Repositories;
 @using Microsoft.AspNetCore.Components.Authorization
-@inject IProposalRepository proposalRepository
+@inject IProposalApiService apiService
 @inject NavigationManager navigationManager
 
 <EditForm Model="@proposal" OnValidSubmit="@HandleValidSubmit">
@@ -37,10 +37,10 @@
 
     private ProposalModel proposal = new ProposalModel();
 
-    private void HandleValidSubmit()
+    private async Task HandleValidSubmit()
     {
         proposal.ConferenceId = int.Parse(ConferenceId);
-        proposalRepository.Add(proposal);
+        await apiService.Add(proposal);
         navigationManager.NavigateTo($"/proposals/{ConferenceId}");
     }
 }

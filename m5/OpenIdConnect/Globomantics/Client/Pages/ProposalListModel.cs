@@ -1,6 +1,6 @@
 ﻿
+using Globomantics.Client.ApiServices;
 using Globomantics.Client.Models;
-using Globomantics.Repositories;
 using Microsoft.AspNetCore.Components;
 
 namespace Globomantics.Client.Pages;
@@ -12,11 +12,11 @@ public class ProposalListModel : ComponentBase
     public IEnumerable<ProposalModel> proposals;
 
     [Inject]
-    protected IProposalRepository ProposalRepository { get; set; }
+    protected IProposalApiService apiService { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        proposals = ProposalRepository.GetAllForConference(int.Parse(ConferenceId));
+        proposals = await apiService.GetAll(int.Parse(ConferenceId));
     }
 }
 

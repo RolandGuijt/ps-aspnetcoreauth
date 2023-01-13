@@ -3,7 +3,6 @@ using Globomantics.Shared;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +24,6 @@ builder.Services.AddAuthentication(o =>
     {
         o.Cookie.Name = "__Host-spa";
         o.Cookie.SameSite = SameSiteMode.Strict;
-        o.SlidingExpiration = false;
     })
     .AddOpenIdConnect(options =>
      {
@@ -48,19 +46,10 @@ builder.Services.AddAuthentication(o =>
          options.ClaimActions.MapUniqueJsonKey("birthdate", "birthdate");
          options.ClaimActions.MapUniqueJsonKey("role", "role");
          options.ClaimActions.MapUniqueJsonKey("permission", "permission");
-
-         options.Events = new OpenIdConnectEvents
-         {
-             OnTokenResponseReceived = r =>
-             {
-                 var idToken = r.TokenEndpointResponse.IdToken;
-                 return Task.CompletedTask;
-             }
-         };
-
      });
 
-builder.Services.AddSingleton<IUserRepository, UserRepository>();
+builder.Services.AddSingleton<IConferenceRepository, ConferenceRepository>();
+builder.Services.AddSingleton<IProposalRepository, ProposalRepository>();
 
 var app = builder.Build();
 

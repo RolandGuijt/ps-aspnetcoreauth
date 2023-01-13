@@ -20,6 +20,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
+builder.Services.AddSingleton<IConferenceRepository, ConferenceRepository>();
+builder.Services.AddSingleton<IProposalRepository, ProposalRepository>();
 
 var app = builder.Build();
 

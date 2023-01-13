@@ -19,7 +19,7 @@ namespace Globomantics.Server.Controllers
         }
 
         [Authorize]
-        public IEnumerable<UserClaim> GetUser()
+        public IEnumerable<UserClaim> GetUserClaims()
         {
             foreach (var claim in User.Claims)
                 yield return new UserClaim { Type = claim.Type, Value = claim.Value };

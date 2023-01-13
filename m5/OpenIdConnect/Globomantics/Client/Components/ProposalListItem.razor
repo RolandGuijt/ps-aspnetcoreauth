@@ -1,6 +1,6 @@
+@using Globomantics.Client.ApiServices;
 @using Globomantics.Client.Models;
-@using Globomantics.Repositories;
-@inject IProposalRepository proposalRepository
+@inject IProposalApiService apiService
 
 <tr>
     <td>@Proposal.Title</td>
@@ -24,9 +24,9 @@
     [Parameter]
     public ProposalModel Proposal { get; set; }
 
-    private void HandleApprove()
+    private async Task HandleApprove()
     {
         Proposal.Approved = true;
-        proposalRepository.Approve(Proposal.Id);
+        await apiService.Approve(Proposal.Id);
     }
 }
