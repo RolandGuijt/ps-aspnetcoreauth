@@ -11,7 +11,10 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddAuthorizationCore();
 builder.Services.AddSingleton(sp =>
 {
-    var client = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
+    var client = new HttpClient 
+    { 
+        BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) 
+    };
     client.DefaultRequestHeaders.Add("X-CSRF", "1");
     return client;
 });

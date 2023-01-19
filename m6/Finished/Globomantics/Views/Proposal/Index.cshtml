@@ -1,0 +1,55 @@
+﻿@using Microsoft.AspNetCore.Authorization;
+@model IEnumerable<Globomantics.Models.ProposalModel>
+@inject IAuthorizationService AuthorizationService
+@{
+    var isSpeakerResult = await AuthorizationService
+        .AuthorizeAsync(User, "IsSpeaker");
+    var isOrganizerResult = await AuthorizationService
+        .AuthorizeAsync(User, "IsOrganizer");
+    var yearsOfExperienceResult = await AuthorizationService
+    .AuthorizeAsync(User, "YearsOfExperience");
+}
+<div class="row">
+    <div class="col-md-10 col-md-offset-2">
+        <table class="table">
+            <tr>
+                <th>Title</th>
+                <th>Speaker</th>
+                <th>Approved</th>
+                <th>Actions</th>
+            </tr>
+            @foreach (var proposal in Model)
+            {
+                <tr>
+                    <td>@proposal.Title</td>
+                    <td>@proposal.Speaker</td>
+                    <td>
+                        @if (proposal.Approved)
+                        {
+                            <div>Yes</div>
+                        }
+                    </td>
+                    <td>
+                        @{
+                            var proposalEditResult = await AuthorizationService.
+                                AuthorizeAsync(User, proposal, "EditProposal");
+                        }
+                        @if (!proposal.Approved && isOrganizerResult.Succeeded)
+                        {
+                            <a asp-action="Approve" asp-route-proposalId="@proposal.Id">Approve</a>
+                        }
+                        @if (proposalEditResult.Succeeded)
+                        {
+                            <a asp-action="Edit" asp-route-id="@proposal.Id">Edit</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+        @if (isSpeakerResult.Succeeded && yearsOfExperienceResult.Succeeded)
+        {
+            <a asp-action="AddProposal" asp-route-conferenceId="@ViewBag.ConferenceId">Add</a>
+        }
+
+    </div>
+</div>

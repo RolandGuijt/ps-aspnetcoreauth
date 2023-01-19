@@ -14,7 +14,8 @@ namespace Globomantics.Client.ApiServices
 
         public async Task<IEnumerable<ConferenceModel>> GetAll()
         {
-            return await _Client.GetFromJsonAsync<IEnumerable<ConferenceModel>>("/api/conference");
+            return await _Client
+                .GetFromJsonAsync<IEnumerable<ConferenceModel>>("/api/conference");
         }
 
         public async Task Add(ConferenceModel model)
