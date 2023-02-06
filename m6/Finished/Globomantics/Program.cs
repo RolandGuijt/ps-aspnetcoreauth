@@ -2,7 +2,6 @@ using Globomantics.Authorization;
 using Globomantics.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +16,18 @@ builder.Services.AddAuthentication(o =>
     o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     //o.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;           
 })
-    .AddCookie()
+    .AddCookie(o => {
+        o.Events = new CookieAuthenticationEvents
+        {
+            OnValidatePrincipal = (context =>
+            {
+                return Task.CompletedTask;
+            })
+        };
+        o.ExpireTimeSpan = new TimeSpan(1, 0, 0);
+        o.Cookie.MaxAge = new TimeSpan(1, 0, 0);
+       
+    }) 
     .AddGoogle(o =>
     {
         o.ClientId = "686977813024-d9i87jqqovj5tu5luks9rk8gl33ck3rb.apps.googleusercontent.com";
