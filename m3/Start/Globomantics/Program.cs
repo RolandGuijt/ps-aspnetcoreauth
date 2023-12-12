@@ -19,11 +19,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Conference}/{action=Index}/{id?}");
-});
+app.MapControllerRoute("default", "{controller=Conference}/{action=Index}/{id?}");
 
 app.Run();

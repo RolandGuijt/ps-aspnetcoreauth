@@ -44,12 +44,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapRazorPages();
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Conference}/{action=Index}/{id?}");
-});
+app.MapRazorPages();
+app.MapControllerRoute("default", "{controller=Conference}/{action=Index}/{id?}");
 
 app.Run();
